@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+  php:
+    restart: always
+    build: './'
+    read_only: true
+    tmpfs:
+      - /tmp
+    # PAY ATTENTION: SOCK FOLDER NEEDS TO HAVE SETGID AND TO BE CHOWNED TO WWW-DATA GROUP. OTHER SETTINGS ARE NOT SECURE! 
+    volumes:
+        - ./sock/:/sock/:rw    
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "1"
+            max-size: "10m"
+    #healthcheck:
+    #    test: "php-fpm-healthcheck"
+    #    timeout: 10s
+    #    interval: 1m30s
+    #    retries: 2
+networks:
+    default:
+        driver_opts:
+            com.docker.network.bridge.name: easyxxewebctfit
